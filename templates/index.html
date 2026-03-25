@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корпус жестов и речи</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Корпус жестов и речи</h1>
+
+            <div class="search-container">
+                <div class="search-tabs">
+                    <button class="tab-btn active" data-type="word">Поиск по словам</button>
+                    <button class="tab-btn" data-type="lemma">Поиск по леммам</button>
+                    <button class="tab-btn" data-type="gesture">Поиск по жестам</button>
+                </div>
+
+                <div class="filters">
+                    <select id="video-select" class="filter-select">
+                        <option value="">Все видео</option>
+                        {% for video in videos %}
+                        <option value="{{ video.id }}">{{ video.filename }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <!-- Блок поиска для слов и лемм -->
+                    <div id="word-search-box" class="search-box">
+                        <input type="text" id="search-input" placeholder="Введите слово для поиска">
+                        <button id="search-btn">Поиск</button>
+                    </div>
+
+                    <!-- Блок поиска для жестов -->
+                    <div id="gesture-search-box" class="search-box" style="display: none;">
+                        <select id="gesture-type-select" class="filter-select" style="flex: 1;">
+                            <option value="">Выберите тип жеста</option>
+                            <option value="Depictive">Depictive (изобразительные)</option>
+                            <option value="Pragmatic">Pragmatic (прагматические)</option>
+                            <option value="Pointing">Pointing (указательные)</option>
+                            <option value="Beat">Beat (ритмические)</option>
+                            <option value="Adaptor">Adaptor (адапторы)</option>
+                            <option value="Falstart">Falstart (сорванные)</option>
+                            <option value="PosChange">PosChange (смена положения)</option>
+                            <option value="Emblem">Emblem (эмблемы)</option>
+                        </select>
+                        <button id="search-gesture-btn" class="search-btn">Поиск</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="video-section">
+                <h3 class="video-title" id="video-title">Выберите результат поиска для просмотра видео</h3>
+                <div class="video-placeholder" id="video-placeholder">
+                    <p>Выберите результат поиска для просмотра видео</p>
+                </div>
+                <video id="video-player" style="display: none;" controls>
+                    <source src="" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
+
+                <div class="chart-button-container" id="chart-button-container" style="display: none;">
+                    <button id="show-gesture-chart" class="elan-button">📊 Показать график жестов</button>
+                </div>
+
+                <div id="gesture-chart-container" class="gesture-chart-container" style="display: none;">
+                    <div class="chart-controls">
+                        <button id="close-chart" class="elan-button secondary">✕ Закрыть</button>
+                    </div>
+                    <h3>📊 Статистика жестов</h3>
+                    <div class="chart-content">
+                        <img id="gesture-chart-img" style="max-width: 100%;">
+                    </div>
+                    <div class="chart-data">
+                        <div id="gesture-chart-data"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <h2>Результаты поиска <span id="results-count"></span></h2>
+                <div id="search-results" class="results-list"></div>
+            </div>
+        </div>
+
+        <div class="annotations-section" id="annotations-section" style="display: none;">
+            <div id="annotations" class="annotations-list"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/player.js') }}"></script>
+</body>
+</html>
